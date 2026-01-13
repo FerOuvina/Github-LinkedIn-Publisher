@@ -1,7 +1,13 @@
+import forms from "@tailwindcss/forms";
+import containerQueries from "@tailwindcss/container-queries";
+
 /** @type {import('tailwindcss').Config} */
 export default {
   darkMode: "class",
-  content: ["./index.html", "./src/**/*.{js,jsx,ts,tsx}"],
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+  ],
   theme: {
     extend: {
       colors: {
@@ -11,19 +17,7 @@ export default {
         "card-dark": "#192233",
         "border-dark": "#232f48",
       },
-      fontFamily: {
-        display: ["Inter", "sans-serif"],
-      },
-      borderRadius: {
-        DEFAULT: "0.25rem",
-        lg: "0.5rem",
-        xl: "0.75rem",
-        full: "9999px",
-      },
     },
   },
-  plugins: [
-    require("@tailwindcss/forms"),
-    require("@tailwindcss/container-queries"),
-  ],
+  plugins: [forms, containerQueries],
 };
