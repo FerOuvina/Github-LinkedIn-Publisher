@@ -1,4 +1,5 @@
-import '../styles/Home.css'
+import { Link } from "wouter";
+import "../styles/Home.css";
 
 function Home() {
   return (
@@ -64,7 +65,14 @@ function Home() {
       <footer>
         <h2>👉 Get started</h2>
         <h3>Click Continue to configure your credentials and preferences.</h3>
-        <button type="button">Continue</button>
+        <Link href="/getting-started">Continue</Link>
+        <hr />
+        <a
+          target="_blank"
+          href="https://github.com/FerOuvina/Github-LinkedIn-Publisher"
+        >
+          Repository
+        </a>
       </footer>
     </main>
   );
