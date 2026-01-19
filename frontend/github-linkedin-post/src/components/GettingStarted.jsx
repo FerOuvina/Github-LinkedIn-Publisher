@@ -1,103 +1,232 @@
 import { Link } from "wouter";
+import { useEffect, useState } from "react";
+import StepPrerequisites from "./steps/StepPrerequisites";
+// import StepCloneRepo from "../steps/StepCloneRepo";
+// import StepEnterFolder from "../steps/StepEnterFolder";
+// import StepFrontend from "../steps/StepFrontend";
+// import StepInstallDeps from "../steps/StepInstallDeps";
+// import StepStartServer from "../steps/StepStartServer";
 import "../styles/GettingStarted.css";
 
 function GettingStarted() {
+  const steps = [
+    {
+      id: 1,
+      title: "Install Pre-requisites",
+      sidebar: "Pre-requisites",
+      component: StepPrerequisites,
+    },
+    {
+      id: 2,
+      title: "Clone Repository",
+      sidebar: "Clone Repository",
+      //   component: StepCloneRepo,
+    },
+    {
+      id: 3,
+      title: "Enter Folder",
+      sidebar: "Enter Folder",
+      //   component: StepEnterFolder,
+    },
+    {
+      id: 4,
+      title: "Go to Frontend",
+      sidebar: "Go to Frontend",
+      //   component: StepFrontend,
+    },
+    {
+      id: 5,
+      title: "Install Dependencies",
+      sidebar: "Install Dependencies",
+      //   component: StepInstallDeps,
+    },
+    {
+      id: 6,
+      title: "Start Server",
+      sidebar: "Start Server",
+      //   component: StepStartServer,
+    },
+  ];
+
+  const [currentStep, setCurrentStep] = useState(0);
+
+  const totalSteps = steps.length;
+  const progress = Math.round(((currentStep + 1) / totalSteps) * 100);
+  const step = steps[currentStep];
+  const StepComponent = steps[currentStep].component;
+
+  const [darkMode, setDarkMode] = useState(false);
+
+  // Initialize theme
+  useEffect(() => {
+    const storedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)",
+    ).matches;
+
+    if (storedTheme === "dark" || (!storedTheme && prefersDark)) {
+      document.documentElement.classList.add("dark");
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setDarkMode(true);
+    }
+  }, []);
+
+  // Toggle handler
+  const toggleDarkMode = () => {
+    const isDark = !darkMode;
+    setDarkMode(isDark);
+
+    document.documentElement.classList.toggle("dark", isDark);
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+  };
+
   return (
-    <main>
-      <header>
-        <h1>Pre-requisites before starting</h1>
-        <h2>Step 1 — What you need before starting</h2>
-        <h3>Make sure you have these tools installed on your computer:</h3>
-        <ul>
-          <li>
-            <a href="https://git-scm.com/install/windows">
-              <span>Git</span> — to download the project
-            </a>
-          </li>
-          <li>
-            <a href="https://nodejs.org/en/download">
-              <span>Node.js (LTS)</span> — to run the frontend and scripts
-            </a>
-          </li>
-        </ul>
-        <small>
-          💡 If you already use Node and Git, you can continue to the next step.
-        </small>
-      </header>
+    <main className="flex flex-col h-screen overflow-hidden bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display md:flex-row">
+      <aside className="flex flex-col w-full overflow-y-auto bg-white border-b md:w-72 dark:bg-sidebar-dark md:border-b-0 md:border-r border-slate-200 dark:border-slate-800 shrink-0 dark:bg-background-dark">
+        <div className="sticky top-0 z-10 p-6 bg-white dark:bg-background-dark dark:border-b-[1px] dark:border-white">
+          <div className="flex items-center gap-3">
+            <div className="flex items-center justify-center rounded-lg size-10 bg-primary/20 text-primary">
+              <span className="material-symbols-outlined">smart_toy</span>
+            </div>
+            <div className="flex flex-col">
+              <h1 className="text-base font-bold leading-none text-slate-900 dark:text-white">
+                Setup Guide
+              </h1>
+              <p className="mt-1 text-xs text-slate-500 dark:text-slate-400">
+                GitHub-to-LinkedIn Bot
+              </p>
+            </div>
+          </div>
+        </div>
+        <nav className="flex-1 px-4 py-2 space-y-1">
+          {steps.map((s, index) => {
+            const isActive = index === currentStep;
+            const isCompleted = index < currentStep;
 
-      <section>
-        <article>
-          <h2>Step 2 — Clone the repository</h2>
-          <h3>You’ll first need a local copy of the project.</h3>
-          <ul>
-            <li>Open a terminal (Command Prompt, PowerShell, or Terminal)</li>
-            <li>Run the following command:</li>
-            <li>
-              git clone https://github.com/FerOuvina/Github-LinkedIn-Publisher
-            </li>
-            <li>This will download the project files to your computer.</li>
-          </ul>
-        </article>
+            return (
+              <div
+                key={s.id}
+                className={`group flex items-center gap-3 px-3 py-3 rounded-lg transition-colors
+          ${
+            isActive ?
+              "bg-primary/10 dark:bg-[#1f2937] border-l-4 border-primary"
+            : "opacity-70 hover:bg-slate-100 dark:hover:bg-slate-800/50"
+          }
+        `}
+              >
+                <span
+                  className={`material-symbols-outlined text-[20px]
+            ${
+              isActive ? "text-primary fill-1"
+              : isCompleted ? "text-green-500"
+              : "text-slate-400 dark:text-slate-600"
+            }
+          `}
+                >
+                  {isActive ?
+                    "circle"
+                  : isCompleted ?
+                    "check_circle"
+                  : "radio_button_unchecked"}
+                </span>
 
-        <article>
-          <h2>Step 3 — Enter the project folder</h2>
-          <ul>
-            <li>
-              Once the repository is cloned, move into the project directory:
-            </li>
-            <li>cd Github-LinkedIn-Publisher</li>
-            <li>Inside, you’ll find the frontend and backend folders.</li>
-          </ul>
-        </article>
+                <div className="flex flex-col">
+                  <span
+                    className={`text-sm font-medium ${
+                      isActive ?
+                        "text-primary dark:text-white"
+                      : "text-slate-600 dark:text-slate-400"
+                    }`}
+                  >
+                    {s.sidebar}
+                  </span>
+                  {isActive && (
+                    <span className="text-xs text-slate-500 dark:text-slate-400">
+                      Step {s.id}
+                    </span>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </nav>
 
-        <article>
-          <h2>Step 4 — Go to the frontend</h2>
-          <ul>
-            <li>Navigate to the frontend directory:</li>
-            <li>cd frontend/github-linkedin-post</li>
-            <li>This is where the web application lives.</li>
-          </ul>
-        </article>
+        {/* Dark mode toggle */}
+        <div className="flex items-center gap-3 px-4 pb-2 justify-evenly">
+          <Link
+            href="/"
+            className="flex items-center justify-center px-4 text-sm font-bold text-white transition-all rounded-lg shadow-lg h-9 bg-primary shadow-primary/20 hover:bg-blue-600 hover:scale-105 active:scale-95"
+          >
+            Go Back
+          </Link>
+          <button
+            onClick={toggleDarkMode}
+            className="flex items-center justify-center transition-colors bg-transparent border border-gray-200 rounded-lg h-9 w-9 dark:border-border-dark hover:bg-gray-100 dark:hover:bg-card-dark"
+            aria-label="Toggle dark mode"
+          >
+            <span className="material-symbols-outlined text-[20px]">
+              {darkMode ? "light_mode" : "dark_mode"}
+            </span>
+          </button>
+        </div>
+      </aside>
 
-        <article>
-          <h2>Step 5 — Install dependencies</h2>
-          <ul>
-            <li>Before running the app, install all required packages:</li>
-            <li>npm install</li>
-            <li>This may take a few moments the first time.</li>
-            <li>
-              <blockquote>
-                📦 This step downloads everything the frontend needs to work.
-              </blockquote>
-            </li>
-          </ul>
+      <section className="relative flex flex-col flex-1 h-full overflow-hidden">
+        <article className="flex-1 w-full overflow-y-auto">
+          <div className="max-w-4xl px-6 py-8 pb-32 mx-auto md:py-12">
+            <div className="flex flex-col gap-3 mb-10">
+              <div className="flex items-end justify-between">
+                <p className="text-sm font-semibold tracking-wider uppercase text-slate-700 dark:text-slate-300">
+                  Step {currentStep + 1} of {totalSteps}
+                </p>
+                <p className="text-sm font-medium text-primary">
+                  {progress}% Completed
+                </p>
+              </div>
+              <div
+                className="h-2 transition-all duration-500 ease-out rounded-full bg-primary"
+                style={{ width: `${progress}%` }}
+              ></div>
+            </div>
+            <div className="flex flex-col gap-4 mb-8">
+              <h2 className="text-3xl font-bold md:text-4xl">
+                Step {step.id}: {step.title}
+              </h2>
+              <div className="max-w-2xl text-lg text-slate-600 dark:text-slate-400">
+                <StepComponent />
+              </div>
+            </div>
+          </div>
         </article>
+        <footer className="sticky bottom-0 z-20 flex justify-between w-full p-4 bg-white border-t dark:bg-background-dark border-slate-200 dark:border-slate-800 md:px-8 md:py-5">
+          <button
+            disabled={currentStep === 0}
+            onClick={() => setCurrentStep((s) => Math.max(0, s - 1))}
+            className={`flex items-center px-6 py-2.5 text-sm font-medium rounded-lg
+    ${
+      currentStep === 0 ?
+        "text-slate-400 bg-slate-100 dark:bg-slate-800 cursor-not-allowed"
+      : "text-slate-700 dark:text-white bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700"
+    }
+  `}
+          >
+            <span className="mr-2 material-symbols-outlined">arrow_back</span>
+            Previous
+          </button>
 
-        <article>
-          <h2>Step 6 — Start the development server</h2>
-          <ul>
-            <li>Now you’re ready to run the project locally:</li>
-            <li>npm run dev</li>
-            <li>
-              Once the command finishes, you’ll see a local URL in the terminal
-              (usually):
-            </li>
-            <li>http://localhost:5173</li>
-            <li>Open it in your browser to see the app running.</li>
-          </ul>
-        </article>
-
-        <article>
-          <h2>You’re all set 🎉</h2>
-          <p>The frontend is now running on your local machine.</p>
-          <p>You can start exploring the app or move on to backend setup.</p>
-        </article>
+          <button
+            onClick={() =>
+              setCurrentStep((s) => Math.min(totalSteps - 1, s + 1))
+            }
+            className="flex items-center px-6 py-2.5 text-sm font-medium text-white bg-primary hover:bg-blue-600 rounded-lg shadow-lg shadow-primary/20"
+          >
+            Continue
+            <span className="ml-2 material-symbols-outlined">
+              arrow_forward
+            </span>
+          </button>
+        </footer>
       </section>
-
-      <footer>
-        <Link href="/">Previous step</Link>
-        <Link href="/">Continue</Link>
-      </footer>
     </main>
   );
 }
