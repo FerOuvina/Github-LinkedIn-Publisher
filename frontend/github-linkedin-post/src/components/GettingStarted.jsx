@@ -152,7 +152,7 @@ function GettingStarted() {
         </nav>
 
         {/* Dark mode toggle */}
-        <div className="flex items-center gap-3 px-4 pb-2 justify-evenly">
+        <div className="sticky bottom-0 z-20 flex justify-between w-full p-4 bg-white border-t dark:bg-background-dark border-slate-200 dark:border-slate-800 md:px-8 md:py-6">
           <Link
             href="/"
             className="flex items-center justify-center px-4 text-sm font-bold text-white transition-all rounded-lg shadow-lg h-9 bg-primary shadow-primary/20 hover:bg-blue-600 hover:scale-105 active:scale-95"
@@ -198,6 +198,7 @@ function GettingStarted() {
             </div>
           </div>
         </article>
+
         <footer className="sticky bottom-0 z-20 flex justify-between w-full p-4 bg-white border-t dark:bg-background-dark border-slate-200 dark:border-slate-800 md:px-8 md:py-5">
           <button
             disabled={currentStep === 0}

@@ -1,3 +1,5 @@
+import CopyBlock from "../copyBlock";
+
 export default function StepPrerequisites() {
   return (
     <section>
@@ -74,32 +76,10 @@ export default function StepPrerequisites() {
           Once installed, run the following commands in your terminal to confirm
           the tools are ready.
         </p>
-        <div className="rounded-lg bg-[#0d1117] border border-slate-200 dark:border-[#30363d] overflow-hidden shadow-sm">
-          <div className="flex items-center justify-between px-4 py-2 bg-[#161b22] border-b border-[#30363d]">
-            <div className="flex gap-1.5">
-              <div className="w-3 h-3 rounded-full bg-[#ff5f56]"></div>
-              <div className="w-3 h-3 rounded-full bg-[#ffbd2e]"></div>
-              <div className="w-3 h-3 rounded-full bg-[#27c93f]"></div>
-            </div>
-            <span className="font-mono text-xs text-slate-400">bash</span>
-          </div>
-          <div className="p-5 overflow-x-auto font-mono text-sm">
-            <div className="flex flex-col gap-2">
-              <div className="flex gap-2 text-white">
-                <span className="text-blue-400 select-none">$</span>
-                <span>node -v</span>
-              </div>
-              <div className="pl-4 select-none text-slate-500">v18.14.0</div>
-              <div className="flex gap-2 mt-2 text-white">
-                <span className="text-blue-400 select-none">$</span>
-                <span>git --version</span>
-              </div>
-              <div className="pl-4 select-none text-slate-500">
-                git version 2.39.0
-              </div>
-            </div>
-          </div>
-        </div>
+
+        <CopyBlock code={`node -v`} output={`v18.14.0`} />
+
+        <CopyBlock code={`git --version`} output={`git version 2.39.0`} />
       </div>
     </section>
   );
