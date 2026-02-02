@@ -1,12 +1,11 @@
 import { Link } from "wouter";
 import { useEffect, useState } from "react";
 import StepPrerequisites from "./steps/StepPrerequisites";
-// import StepCloneRepo from "../steps/StepCloneRepo";
+import StepCloneRepo from "./steps/StepCloneRepo";
 // import StepEnterFolder from "../steps/StepEnterFolder";
 // import StepFrontend from "../steps/StepFrontend";
 // import StepInstallDeps from "../steps/StepInstallDeps";
 // import StepStartServer from "../steps/StepStartServer";
-import "../styles/GettingStarted.css";
 
 function GettingStarted() {
   const steps = [
@@ -20,7 +19,7 @@ function GettingStarted() {
       id: 2,
       title: "Clone Repository",
       sidebar: "Clone Repository",
-      //   component: StepCloneRepo,
+      component: StepCloneRepo,
     },
     {
       id: 3,
@@ -179,7 +178,7 @@ function GettingStarted() {
                 <p className="text-sm font-semibold tracking-wider uppercase text-slate-700 dark:text-slate-300">
                   Step {currentStep + 1} of {totalSteps}
                 </p>
-                <p className="text-sm font-medium text-primary">
+                <p className="text-sm font-medium text-primary dark:text-slate-300">
                   {progress}% Completed
                 </p>
               </div>

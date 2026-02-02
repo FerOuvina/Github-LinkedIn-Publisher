@@ -41,7 +41,9 @@ export default function CopyBlock({ code, language = "bash", output }) {
       </pre>
 
       <div className="pb-2">
-        <code className="pl-4 select-none text-slate-500">{output}</code>
+        {output && (
+          <code className="pl-4 select-none text-slate-500">{output}</code>
+        )}
       </div>
     </div>
   );
